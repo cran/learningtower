@@ -12,7 +12,8 @@ fig.height = 6,
 fig.align = "center")
 
 ## -----------------------------------------------------------------------------
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 library(learningtower)
 
 #load the subset student data for the year 2018
