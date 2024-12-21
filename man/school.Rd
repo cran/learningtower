@@ -3,13 +3,13 @@
 \docType{data}
 \name{school}
 \alias{school}
-\title{School data available for the years 2000-2018 from the PISA OECD database}
+\title{Subset of the School data available for the years 2000-2022 from the PISA OECD database}
 \format{
 A tibble of the following variables
 \itemize{
-    \item \code{year}: Year of the PISA data. Factor.
-    \item \code{country_iso3c}: Country 3 character code. Note that some regions/territories are coded as country for ease of input. Factor.
-    \item \code{school_id}: The school identification number, unique for each country and year combination. Factor.
+    \item \code{year}: Year of the PISA data. Integer.
+    \item \code{country}: Country 3 character code. Note that some regions/territories are coded as country for ease of input. Chracter.
+    \item \code{school_id}: The school identification number, unique for each country and year combination. Character.
     \item \code{fund_gov}: Percentage of total funding for school year from government. Numeric.
     \item \code{fund_fees}: Percentage of total funding for school year from student fees or school charges paid by parents. Numeric.
     \item \code{fund_donation}: Percentage of total funding for school year from
@@ -24,8 +24,8 @@ A tibble of the following variables
     }
 }
 \description{
-A dataset containing school weight and other information
+A subset data containing school weight and other information
 from the triennial testing of 15 year olds around
 the globe. Original data available from
- \url{https://www.oecd.org/pisa/data/}.
+ \url{https://www.oecd.org/en/about/programmes/pisa/pisa-data.html}.
 }

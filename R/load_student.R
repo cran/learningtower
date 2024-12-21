@@ -1,9 +1,9 @@
 #'@title load_student() function allows the user to extract the PISA student scores for any desired year
-#'from 2000-2018
+#'from 2000-2022
 #'
 #'@description load_student() function was created to extract the data of student's scores in any
-#'years from 2000-2018, the function requires any of the year as it argument or a string "all"
-#'that will return all the PISA scores of the students from the years 2000-2018.
+#'years from 2000-2022, the function requires any of the year as it argument or a string "all"
+#'that will return all the PISA scores of the students from the years 2000-2022.
 #'
 #'@param year is the required parameter for the function to display the
 #'dataset the user wants to view the PISA scores for the selected year else the entire student
@@ -31,11 +31,12 @@ load_student <- function(year = "2000"){
   stopifnot(all(year %in% c("2000", "2003",
                             "2006", "2009",
                             "2012", "2015",
-                            "2018", "all")))
+                            "2018", "2022",
+                            "all")))
 
   ## If "all" is in the year vector, we will download everything
   if("all" %in% year){
-    year = c("2000", "2003", "2006", "2009", "2012", "2015", "2018")
+    year = c("2000", "2003", "2006", "2009", "2012", "2015", "2018", "2022")
   }
 
   result = tibble::tibble()

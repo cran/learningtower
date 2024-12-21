@@ -3,11 +3,14 @@ title: "Using the Student and Country Data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{learningtower_student}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
 knitr::opts_chunk$set(
 echo = TRUE,
 collapse = TRUE,
@@ -23,15 +26,13 @@ fig.align = "center")
 
 # Introduction
 
-The goal of `learningtower` is to provide a user-friendly access to a subset of variables from the Programme for International Student Assessment (PISA) data collected by the [OECD](https://www.oecd.org/pisa/data/). The data is collected on a three year basis, between the years 2000-2018.
+The goal of `learningtower` is to provide a user-friendly R package to provide easy access to a subset of variables from PISA data collected from the [OECD](https://www.oecd.org/en/about/programmes/pisa/pisa-data.html). Version `r utils::packageVersion("learningtower")` of this package provides the data for the years `r learningtower:::data_range()`. The survey data is published every three years. This is an excellent real world dataset for data exploring, data visualizing and statistical computations.
 
-You can explore more on this dataset for various analysis and statistical computations.
+This vignette documents how to access the data, and shows a few typical methods to explore the data.
 
-This vignette documents how to access these dataset, and shows a few typical methods to explore the data.
+# Exploring the `student` data
 
-# Exploring the student Data
-
-## Usage of the student subset data
+## Usage of the subset of the `student` data
 
 - In `learningtower`, the main data is the student data. This data contains information regarding student test scores and some selected variables regarding their schooling and socio-economic status. The original and complete data may be obtained from [OECD](https://www.oecd.org/pisa/data/).
 
@@ -58,15 +59,13 @@ glimpse(student_subset_2018)
 ```
 
 ```{r}
-student_subset_2018 %>% 
-  group_by(country, gender) %>% 
-  dplyr::filter(country %in% c("AUS", "QAT", "USA" , "JPN", 
-                               "ALB", "PER", "FIN",  "SGP")) %>% 
-  dplyr::left_join(countrycode, by = "country") %>% 
-  dplyr::mutate(country_name = factor(
-    country_name, 
-    levels = c("Singapore", "Australia", "Japan", 
-                "United States", "Finland", "Albania", "Peru", "Qatar"))) %>% 
+selected_countries = c("AUS", "USA", "TUR", "SWE", 
+                       "CHE", "NZL", "BEL", "DEU")
+
+student_subset_2018 |> 
+  group_by(country, gender) |> 
+  dplyr::filter(country %in% selected_countries) |>
+  dplyr::left_join(countrycode, by = "country") |> 
   ggplot(aes(x = math,
              y = country_name,
              fill = gender)) +
@@ -77,7 +76,7 @@ student_subset_2018 %>%
        y = "")
 ```
 
-- In the figure above, we see that from the student subset data for the year 2018, in the countries like Singapore and Australia boys perform better as compared to the girls. However, in countries such as Finland, Qatar and Japan, girls perform better than the boys or are on the same level with boys when it comes to their average mathematics scores.
+- In the figure above, we see that from the student subset data for the year 2018, in the countries like USA and Belgium boys perform better as compared to the girls. However, in countries such as Turkey and Switzerland, girls perform better than the boys or are on the same level with boys when it comes to their average mathematics scores.
 
 - Furthermore, if we want to learn more about the trend in each year of the selected countries or know more about the yearly student scores,  the complete student data can be retrieved  for that/those years or all years using the `load_student()` function included in this package.
 
@@ -85,13 +84,12 @@ student_subset_2018 %>%
 
 - In order to load and download the complete student data for each year(s), here are the various ways to retrieve the entire student dataset for each year(s) for additional study or analysis purposes.
 
-```{r, eval=FALSE}
+```
 #load the entire student data for the year 2018
 student_data_2018 <- load_student(2018)
 
-#load the entire student data for two/three years (2000, 2012, 2018)
+#load the entire student data for two of the years (2012, 2018)
 student_data_2012_2018 <- load_student(c(2012, 2018))
-student_data_2000_2012_2018 <- load_student(c(2000, 2012, 2018))
 
 #load the entire student 
 student_data_all <- load_student("all")
@@ -99,26 +97,24 @@ student_data_all <- load_student("all")
 
 - Note, now that we can load and download the the entire student data. Let us plot the difference in score between a few randomly picked countries seen previously and observe how they have grown in terms their average mathematics score from the year 2012 to 2018.
 
-```{r echo=FALSE}
+```{r}
 student_data_2012_2018 <- load_student(c(2012, 2018))
 
-plot_data <- student_data_2012_2018 %>% 
-  group_by(country, year) %>%  
-  dplyr::filter(country %in% c("AUS", "QAT", "USA" , "JPN", 
-                               "ALB", "PER", "FIN",  "SGP")) %>% 
-  dplyr::summarise(avg_math = mean(math, na.rm = TRUE)) %>%  
-  left_join(countrycode, by = "country") %>% 
-  dplyr::select(country_name, year, avg_math) %>% 
-  ungroup() %>% 
+plot_data <- student_data_2012_2018 |> 
+  group_by(country, year) |>  
+  dplyr::filter(country %in% selected_countries) |> 
+  dplyr::summarise(avg_math = mean(math, na.rm = TRUE)) |>  
+  left_join(countrycode, by = "country") |> 
+  dplyr::select(country_name, year, avg_math) |> 
+  ungroup() |> 
   dplyr::mutate(
-    year = year %>% as.character %>% as.integer, 
     label_x_pos = ifelse(year == 2012, 2012 - 2, 2018 + 1),
     label = ifelse(
       year == 2012,
       paste0(country_name, ", ", round(avg_math)),
       round(avg_math)))
   
-plot_data %>% 
+plot_data |> 
   ggplot(aes(x = year, 
              y = avg_math,
              label = label,
@@ -128,10 +124,10 @@ plot_data %>%
   geom_line() +
   geom_vline(xintercept=2012,
              linetype="dashed",
-             size=0.1) +
+             linewidth=0.1) +
   geom_vline(xintercept=2018,
              linetype="dashed",
-             size=0.1) + 
+             linewidth=0.1) + 
   geom_text(aes(x = label_x_pos),
             position = position_nudge(y = 0)) +
   scale_x_continuous(breaks = c(2012, 2018),
