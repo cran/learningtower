@@ -43,6 +43,10 @@ student_subset_2018 |>
 
 ## -----------------------------------------------------------------------------
 student_data_2012_2018 <- load_student(c(2012, 2018))
+if (is.null(student_data_2012_2018)) {
+  message("Internet resource is not available. Skipping the rest of the vignette.")
+  knitr::knit_exit()
+}
 
 plot_data <- student_data_2012_2018 |> 
   group_by(country, year) |>  

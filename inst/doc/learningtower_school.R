@@ -55,6 +55,10 @@ school_student_subset_2018 |>
 
 ## ----echo=FALSE---------------------------------------------------------------
 student_data_2018 <- load_student("2018")
+if (is.null(student_data_2018)) {
+  message("Internet resource is not available. Skipping the rest of the vignette.")
+  knitr::knit_exit()
+}
 data(school)
 
 data(countrycode)

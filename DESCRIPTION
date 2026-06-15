@@ -1,6 +1,6 @@
 Package: learningtower
 Title: OECD PISA Datasets from 2000-2022 in an Easy-to-Use Format
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: c(
       person(given = "Kevin", family = "Wang", role = c("aut", "cre"), 
              email = "kevinwangstats@gmail.com"),
@@ -28,7 +28,7 @@ Authors@R: c(
 Description: The Programme for International Student Assessment (PISA) is a global study conducted by the Organization for Economic Cooperation and Development (OECD) in member and non-member countries to assess educational systems by assessing 15-year-old school students academic performance in mathematics, science, and reading. This datasets contains information on their scores and other socioeconomic characteristics, information about their school and its infrastructure, as well as the countries that are taking part in the program.
 Depends: R (>= 3.5.0)
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 License: MIT + file LICENSE
 URL: https://kevinwang09.github.io/learningtower/,
@@ -41,7 +41,7 @@ Config/testthat/edition: 3
 LazyData: true
 LazyDataCompression: xz
 NeedsCompilation: no
-Packaged: 2024-12-21 01:51:19 UTC; kevinwang
+Packaged: 2026-06-15 00:05:30 UTC; kevinwang
 Author: Kevin Wang [aut, cre],
   Paul Yacobellis [aut],
   Erika Siregar [aut],
@@ -55,4 +55,4 @@ Author: Kevin Wang [aut, cre],
   Guan Ru Chen [aut]
 Maintainer: Kevin Wang <kevinwangstats@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-12-21 22:40:02 UTC
+Date/Publication: 2026-06-15 07:50:20 UTC
